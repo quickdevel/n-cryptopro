@@ -2,7 +2,7 @@ const CryptoPro = require('../index.js')
 const helpers = require('./helpers')
 
 const cert = helpers.getCertificate()
-const alg = CryptoPro.CALG_GR3411_2012_256
+const alg = CryptoPro.OID_CP_GOST_R3411_12_256
 
 const data = Buffer.from('Test content')
 console.log('Data:', data)

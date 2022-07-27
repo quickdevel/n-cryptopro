@@ -46,11 +46,12 @@ Napi::Value GetCertificateFromBuffer(const Napi::CallbackInfo& info) {
 Napi::Value Hash(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
-  if (info.Length() < 1 || !info[0].IsNumber()) {
-    HandleArgumentError(env, "Algorithm (Number) excepted");
+  if (info.Length() < 1 || !info[0].IsString()) {
+    HandleArgumentError(env, "Algorithm OID (string) excepted");
     return env.Undefined();
   }
-  Napi::Number nAlgorithm = info[0].ToNumber();
+  Napi::String nsAlgorithm = info[0].ToString();
+  DWORD dwAlgId = CertOIDToAlgId(nsAlgorithm.Utf8Value().c_str());
 
   if (info.Length() < 2 || !info[1].IsBuffer()) {
     HandleArgumentError(env, "Data (Buffer) excepted");
@@ -65,7 +66,7 @@ Napi::Value Hash(const Napi::CallbackInfo& info) {
   }
 
   HCRYPTHASH hHash = 0;
-  if (!CryptCreateHash(hCryptProv, nAlgorithm.Uint32Value(), 0, 0, &hHash)) {
+  if (!CryptCreateHash(hCryptProv, dwAlgId, 0, 0, &hHash)) {
     CryptReleaseContext(hCryptProv, 0);
     HandleError(env, "Error on CryptCreateHash");
     return env.Undefined();
@@ -121,11 +122,12 @@ Napi::Value SignHash(const Napi::CallbackInfo& info) {
   Certificate *nCertificate = Napi::ObjectWrap<Certificate>::Unwrap(info[0].As<Napi::Object>());
   PCCERT_CONTEXT pCertContext = nCertificate->Context();
 
-  if (info.Length() < 2 || !info[1].IsNumber()) {
-    HandleArgumentError(env, "Algorithm (Number) excepted");
+  if (info.Length() < 2 || !info[1].IsString()) {
+    HandleArgumentError(env, "Algorithm OID (string) excepted");
     return env.Undefined();
   }
-  Napi::Number nAlgorithm = info[1].ToNumber();
+  Napi::String nsAlgorithm = info[1].ToString();
+  DWORD dwAlgId = CertOIDToAlgId(nsAlgorithm.Utf8Value().c_str());
 
   if (info.Length() < 3 || !info[2].IsBuffer()) {
     HandleArgumentError(env, "Hash (Buffer) excepted");
@@ -141,7 +143,7 @@ Napi::Value SignHash(const Napi::CallbackInfo& info) {
   }
 
   HCRYPTHASH hHash = 0;
-  if (!CryptCreateHash(hCryptProv, nAlgorithm.Uint32Value(), 0, 0, &hHash)) {
+  if (!CryptCreateHash(hCryptProv, dwAlgId, 0, 0, &hHash)) {
     CryptReleaseContext(hCryptProv, 0);
     HandleError(env, "Error on CryptCreateHash");
     return env.Undefined();
@@ -194,11 +196,12 @@ Napi::Value VerifyHashSignature(const Napi::CallbackInfo& info) {
   Certificate *nCertificate = Napi::ObjectWrap<Certificate>::Unwrap(info[0].As<Napi::Object>());
   PCCERT_CONTEXT pCertContext = nCertificate->Context();
 
-  if (info.Length() < 2 || !info[1].IsNumber()) {
-    HandleArgumentError(env, "Algorithm (Number) excepted");
+  if (info.Length() < 2 || !info[1].IsString()) {
+    HandleArgumentError(env, "Algorithm OID (string) excepted");
     return env.Undefined();
   }
-  Napi::Number nAlgorithm = info[1].ToNumber();
+  Napi::String nsAlgorithm = info[1].ToString();
+  DWORD dwAlgId = CertOIDToAlgId(nsAlgorithm.Utf8Value().c_str());
 
   if (info.Length() < 3 || !info[2].IsBuffer()) {
     HandleArgumentError(env, "Hash (Buffer) excepted");
@@ -219,7 +222,7 @@ Napi::Value VerifyHashSignature(const Napi::CallbackInfo& info) {
   }
 
   HCRYPTHASH hHash = 0;
-  if (!CryptCreateHash(hCryptProv, nAlgorithm.Uint32Value(), 0, 0, &hHash)) {
+  if (!CryptCreateHash(hCryptProv, dwAlgId, 0, 0, &hHash)) {
     CryptReleaseContext(hCryptProv, 0);
     HandleError(env, "Error on CryptCreateHash");
     return env.Undefined();
@@ -470,9 +473,9 @@ Napi::Object InitAll(Napi::Env env, Napi::Object exports) {
   exports.Set(Napi::String::New(env, "verifyMessageSignature"), Napi::Function::New(env, VerifyMessageSignature));
   exports.Set(Napi::String::New(env, "verifyDetachedMessageSignature"), Napi::Function::New(env, VerifyDetachedMessageSignature));
 
-  exports.Set(Napi::String::New(env, "CALG_GR3411"), Napi::Number::New(env, CALG_GR3411));
-  exports.Set(Napi::String::New(env, "CALG_GR3411_2012_256"), Napi::Number::New(env, CALG_GR3411_2012_256));
-  exports.Set(Napi::String::New(env, "CALG_GR3411_2012_512"), Napi::Number::New(env, CALG_GR3411_2012_512));
+  exports.Set(Napi::String::New(env, "OID_CP_GOST_R3411"), Napi::String::New(env, szOID_CP_GOST_R3411));
+  exports.Set(Napi::String::New(env, "OID_CP_GOST_R3411_12_256"), Napi::String::New(env, szOID_CP_GOST_R3411_12_256));
+  exports.Set(Napi::String::New(env, "OID_CP_GOST_R3411_12_512"), Napi::String::New(env, szOID_CP_GOST_R3411_12_512));
 
   return exports;
 }

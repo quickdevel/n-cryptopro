@@ -37,27 +37,27 @@ export function getCertificateFromBuffer(buffer: Buffer): Certificate;
 
 /**
  * Вычисление хэша для данных
- * @param algorithm Алгоритм (напр. CryptoPro.CALG_GR3411)
+ * @param algorithm OID алгоритма (напр. CryptoPro.OID_CP_GOST_R3411_12_256)
  * @param data Буфер с данными
  */
-export function hash(algorithm: number, data: Buffer): Buffer;
+export function hash(algorithm: string, data: Buffer): Buffer;
 
 /**
  * Подпись хэша
  * @param certificate Сертификат
- * @param algorithm Алгоритм (напр. CryptoPro.CALG_GR3411)
+ * @param algorithm OID алгоритма (напр. CryptoPro.OID_CP_GOST_R3411_12_256)
  * @param hash Буфер с хэшем
  */
-export function signHash(certificate: Certificate, algorithm: number, hash: Buffer): Buffer;
+export function signHash(certificate: Certificate, algorithm: string, hash: Buffer): Buffer;
 
 /**
  * Проверка подписи хэша
  * @param certificate Сертификат
- * @param algorithm Алгоритм (напр. CryptoPro.CALG_GR3411)
+ * @param algorithm OID алгоритма (напр. CryptoPro.OID_CP_GOST_R3411_12_256)
  * @param hash Буфер с хэшем
  * @param signature Буфер с подписью
  */
-export function verifyHashSignature(certificate: Certificate, algorithm: number, hash: Buffer, signature: Buffer): boolean;
+export function verifyHashSignature(certificate: Certificate, algorithm: string, hash: Buffer, signature: Buffer): boolean;
 
 /**
  * Шифрование сообщения
@@ -96,17 +96,15 @@ export function verifyDetachedMessageSignature(signature: Buffer, message: Buffe
 /**
  * Алгоритм хэширования в соответствии с ГОСТ Р 34.11-94
  */
-export const CALG_GR3411: number;
-
+export const OID_CP_GOST_R3411: string;
 /**
  * Алгоритм хэширования в соответствии с ГОСТ Р 34.11-2012, длина выхода 256 бит
  */
-export const CALG_GR3411_2012_256: number;
-
+export const OID_CP_GOST_R3411_12_256: string;
 /**
  * Алгоритм хэширования в соответствии с ГОСТ Р 34.11-2012, длина выхода 512 бит
  */
-export const CALG_GR3411_2012_512: number;
+export const OID_CP_GOST_R3411_12_512: string;
 
 // Provider
 declare interface Provider {
@@ -118,12 +116,10 @@ declare interface Provider {
  * Провайдер типа PROV_GOST_2001_DH создает ключи алгоритма ГОСТ Р 34.10-2001
  */
 export const PROV_GOST_2001_DH: number;
-
 /**
  * Провайдер типа PROV_GOST_2012_256 создает ключи алгоритма ГОСТ Р 34.10-2012 длины 256 бит (длина открытого ключа 512 бит)
  */
 export const PROV_GOST_2012_256: number;
-
 /**
  * Провайдер типа PROV_GOST_2012_512 создает ключи алгоритма ГОСТ Р 34.10-2012 длины 512 бит (длина открытого ключа 1024 бита)
  */
@@ -215,12 +211,10 @@ export namespace CAdES {
      * Тип сообщения CAdES BES
      */
     export const CADES_BES: number;
-
     /**
      * Тип сообщения CAdES-T
      */
     export const CADES_T: number;
-
     /**
      * Тип сообщения CAdES-X Long Type 1
      */
