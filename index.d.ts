@@ -4,6 +4,11 @@ interface SignOptions {
      * true, если подпись detached
      */
     isDetached: boolean;
+
+    /**
+     * OID алгоритма хэширования (напр. CryptoPro.OID_CP_GOST_R3411_12_256)
+     */
+    hashAlgorithm: string;
 }
 
 interface VerifySignatureResult {

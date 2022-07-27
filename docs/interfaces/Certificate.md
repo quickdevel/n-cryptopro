@@ -6,14 +6,34 @@
 
 ### Methods
 
+- [getIssuerAttribute](Certificate.md#getissuerattribute)
 - [getIssuerName](Certificate.md#getissuername)
 - [getProvider](Certificate.md#getprovider)
 - [getSerialNumber](Certificate.md#getserialnumber)
+- [getSubjectAttribute](Certificate.md#getsubjectattribute)
 - [getSubjectName](Certificate.md#getsubjectname)
 - [getValidPeriod](Certificate.md#getvalidperiod)
 - [verifyChain](Certificate.md#verifychain)
 
 ## Methods
+
+### getIssuerAttribute
+
+▸ **getIssuerAttribute**(`type`): `string`
+
+Получение атрибута издателя
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `type` | `string` | OID типа атрибута (напр. CryptoPro.OID_COMMON_NAME) |
+
+#### Returns
+
+`string`
+
+___
 
 ### getIssuerName
 
@@ -48,6 +68,24 @@ ___
 #### Returns
 
 `Buffer`
+
+___
+
+### getSubjectAttribute
+
+▸ **getSubjectAttribute**(`type`): `string`
+
+Получение атрибута субъекта
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `type` | `string` | OID типа атрибута (напр. CryptoPro.OID_COMMON_NAME) |
+
+#### Returns
+
+`string`
 
 ___
 

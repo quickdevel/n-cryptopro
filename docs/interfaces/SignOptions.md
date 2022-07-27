@@ -12,9 +12,18 @@
 
 ### Properties
 
+- [hashAlgorithm](SignOptions.md#hashalgorithm)
 - [isDetached](SignOptions.md#isdetached)
 
 ## Properties
+
+### hashAlgorithm
+
+• **hashAlgorithm**: `string`
+
+OID алгоритма хэширования (напр. CryptoPro.OID_CP_GOST_R3411_12_256)
+
+___
 
 ### isDetached
 

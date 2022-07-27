@@ -33,6 +33,7 @@ Napi::Value CAdES::SignMessage(const Napi::CallbackInfo& info) {
 
   bool bIsDetached = false;
   DWORD dwSignatureType = 0;
+  char *pHashAlgorithmOid = szOID_CP_GOST_R3411_12_256;
   if (info.Length() >= 3 && info[2].IsObject()) {
     Napi::Object nOptions = info[2].ToObject();
     if (nOptions.Get("isDetached").IsBoolean()) {
@@ -41,12 +42,15 @@ Napi::Value CAdES::SignMessage(const Napi::CallbackInfo& info) {
     if (nOptions.Get("type").IsNumber()) {
       dwSignatureType = nOptions.Get("type").ToNumber().Uint32Value();
     }
+    if (nOptions.Get("hashAlgorithm").IsString()) {
+      pHashAlgorithmOid = (char *)nOptions.Get("hashAlgorithm").ToString().Utf8Value().c_str();
+    }
   }
 
   CRYPT_SIGN_MESSAGE_PARA cryptSignMessagePara = { sizeof(cryptSignMessagePara) };
   cryptSignMessagePara.dwMsgEncodingType = X509_ASN_ENCODING | PKCS_7_ASN_ENCODING;
   cryptSignMessagePara.pSigningCert = pCertContext;
-  cryptSignMessagePara.HashAlgorithm.pszObjId = szOID_CP_GOST_R3411_12_256;
+  cryptSignMessagePara.HashAlgorithm.pszObjId = pHashAlgorithmOid;
 
   CADES_SIGN_PARA cadesSignPara = { sizeof(cadesSignPara) };
   cadesSignPara.dwCadesType = dwSignatureType;

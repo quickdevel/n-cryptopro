@@ -14,10 +14,23 @@
 
 ### Properties
 
+- [hashAlgorithm](CAdES.CAdESSignOptions.md#hashalgorithm)
 - [isDetached](CAdES.CAdESSignOptions.md#isdetached)
 - [type](CAdES.CAdESSignOptions.md#type)
 
 ## Properties
+
+### hashAlgorithm
+
+• **hashAlgorithm**: `string`
+
+OID алгоритма хэширования (напр. CryptoPro.OID_CP_GOST_R3411_12_256)
+
+#### Inherited from
+
+[SignOptions](SignOptions.md).[hashAlgorithm](SignOptions.md#hashalgorithm)
+
+___
 
 ### isDetached
 
