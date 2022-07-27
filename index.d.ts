@@ -137,6 +137,19 @@ declare interface Certificate {
      */
     getIssuerName(): string;
 
+
+    /**
+     * Получение атрибута субъекта
+     * @param type OID типа атрибута (напр. CryptoPro.OID_COMMON_NAME)
+     */
+     getSubjectAttribute(type: string): string;
+
+    /**
+     * Получение атрибута издателя
+     * @param type OID типа атрибута (напр. CryptoPro.OID_COMMON_NAME)
+     */
+     getIssuerAttribute(type: string): string;
+
     /**
      * Получение серийного номера
      */
@@ -157,6 +170,67 @@ declare interface Certificate {
      */
     getProvider(): Provider;
 }
+
+/**
+ * Общее имя
+ */
+export const OID_COMMON_NAME: string;
+/**
+ * Фамилия
+ */
+export const OID_SUR_NAME: string;
+/**
+ * Приобретенное имя
+ */
+export const OID_GIVEN_NAME: string;
+/**
+ * Наименование страны
+ */
+export const OID_COUNTRY_NAME: string;
+/**
+ * Наименование штата или области
+ */
+export const OID_STATE_OR_PROVINCE_NAME: string;
+/**
+ * Наименование населенного пункта
+ */
+export const OID_LOCALITY_NAME: string;
+/**
+ * Наименование улицы, номер дома
+ */
+export const OID_STREET_ADDRESS: string;
+/**
+ * Наименование организации
+ */
+export const OID_ORGANIZATION_NAME: string;
+/**
+ * Подразделение организации
+ */
+export const OID_ORGANIZATIONAL_UNIT_NAME: string;
+/**
+ * Должность
+ */
+export const OID_TITLE: string;
+/**
+ * ОГРН
+ */
+export const OID_OGRN: string;
+/**
+ * СНИЛС
+ */
+export const OID_SNILS: string;
+/**
+ * ИНН физического лица
+ */
+export const OID_INN: string;
+/**
+ * ИНН юридического лица
+ */
+export const OID_INNLE: string;
+/**
+ * ОГРНИП
+ */
+export const OID_OGRNIP: string;
 
 // CAdES
 export namespace CAdES {
@@ -274,17 +348,14 @@ export namespace XAdES {
      * Тип сообщения XAdES BES
      */
     export const XADES_BES: number;
-
     /**
      * Тип сообщения XAdES-T
      */
     export const XADES_T: number;
-
     /**
      * Тип сообщения XAdES-X Long Type 1
      */
     export const XADES_X_LONG_TYPE_1: number;
-
     /**
      * Тип сообщения XMLDSIG
      */

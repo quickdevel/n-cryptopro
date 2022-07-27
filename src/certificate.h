@@ -19,7 +19,11 @@ public:
 
   Napi::Value GetSubjectName(const Napi::CallbackInfo &info);
   Napi::Value GetIssuerName(const Napi::CallbackInfo &info);
+  Napi::Value GetSubjectAttribute(const Napi::CallbackInfo &info);
+  Napi::Value GetIssuerAttribute(const Napi::CallbackInfo &info);
   Napi::Value GetSerialNumber(const Napi::CallbackInfo &info);
+  Napi::Value GetSignatureAlgorithm(const Napi::CallbackInfo& info);
+  Napi::Value GetPublicKeyAlgorithm(const Napi::CallbackInfo& info);
   Napi::Value GetValidPeriod(const Napi::CallbackInfo &info);
   Napi::Value VerifyChain(const Napi::CallbackInfo &info);
   Napi::Value GetProvider(const Napi::CallbackInfo& info);

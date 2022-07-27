@@ -8,7 +8,11 @@ void Certificate::Init(Napi::Env env, Napi::Object exports) {
   Napi::Function func = DefineClass(env, "Certificate", {
     InstanceMethod("getSubjectName", &Certificate::GetSubjectName),
     InstanceMethod("getIssuerName", &Certificate::GetIssuerName),
+    InstanceMethod("getSubjectAttribute", &Certificate::GetSubjectAttribute),
+    InstanceMethod("getIssuerAttribute", &Certificate::GetIssuerAttribute),
     InstanceMethod("getSerialNumber", &Certificate::GetSerialNumber),
+    InstanceMethod("getSignatureAlgorithm", &Certificate::GetSignatureAlgorithm),
+    InstanceMethod("getPublicKeyAlgorithm", &Certificate::GetPublicKeyAlgorithm),
     InstanceMethod("getValidPeriod", &Certificate::GetValidPeriod),
     InstanceMethod("verifyChain", &Certificate::VerifyChain),
     InstanceMethod("getProvider", &Certificate::GetProvider)
@@ -18,6 +22,22 @@ void Certificate::Init(Napi::Env env, Napi::Object exports) {
   constructor.SuppressDestruct();
 
   exports.Set("Certificate", func);
+
+  exports.Set(Napi::String::New(env, "OID_COMMON_NAME"), Napi::String::New(env, szOID_COMMON_NAME));
+  exports.Set(Napi::String::New(env, "OID_SUR_NAME"), Napi::String::New(env, szOID_SUR_NAME));
+  exports.Set(Napi::String::New(env, "OID_GIVEN_NAME"), Napi::String::New(env, szOID_GIVEN_NAME));
+  exports.Set(Napi::String::New(env, "OID_COUNTRY_NAME"), Napi::String::New(env, szOID_COUNTRY_NAME));
+  exports.Set(Napi::String::New(env, "OID_STATE_OR_PROVINCE_NAME"), Napi::String::New(env, szOID_STATE_OR_PROVINCE_NAME));
+  exports.Set(Napi::String::New(env, "OID_LOCALITY_NAME"), Napi::String::New(env, szOID_LOCALITY_NAME));
+  exports.Set(Napi::String::New(env, "OID_STREET_ADDRESS"), Napi::String::New(env, szOID_STREET_ADDRESS));
+  exports.Set(Napi::String::New(env, "OID_ORGANIZATION_NAME"), Napi::String::New(env, szOID_ORGANIZATION_NAME));
+  exports.Set(Napi::String::New(env, "OID_ORGANIZATIONAL_UNIT_NAME"), Napi::String::New(env, szOID_ORGANIZATIONAL_UNIT_NAME));
+  exports.Set(Napi::String::New(env, "OID_TITLE"), Napi::String::New(env, szOID_TITLE));
+  exports.Set(Napi::String::New(env, "OID_OGRN"), Napi::String::New(env, szOID_OGRN));
+  exports.Set(Napi::String::New(env, "OID_SNILS"), Napi::String::New(env, szOID_SNILS));
+  exports.Set(Napi::String::New(env, "OID_INN"), Napi::String::New(env, szOID_INN));
+  exports.Set(Napi::String::New(env, "OID_INNLE"), Napi::String::New(env, szOID_INNLE));
+  exports.Set(Napi::String::New(env, "OID_OGRNIP"), Napi::String::New(env, szOID_OGRNIP));
 }
 
 Certificate::Certificate(const Napi::CallbackInfo& info) : Napi::ObjectWrap<Certificate>(info) {
@@ -67,10 +87,56 @@ Napi::Value Certificate::GetIssuerName(const Napi::CallbackInfo& info) {
   return Napi::String::From(env, StringAcpToUtf8(sName));
 }
 
+Napi::Value Certificate::GetSubjectAttribute(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+
+  if (info.Length() < 1 || !info[0].IsString()) {
+    HandleArgumentError(env, "Type (string) excepted");
+    return env.Undefined();
+  }
+  Napi::String nsType = info[0].ToString();
+
+  DWORD dwNameLength = CertGetNameString(pContext_, CERT_NAME_ATTR_TYPE, 0, &nsType.Utf8Value()[0], NULL, 0);
+
+  std::string sAttribute(dwNameLength, 0);
+  CertGetNameString(pContext_, CERT_NAME_ATTR_TYPE, 0, &nsType.Utf8Value()[0], &sAttribute[0], dwNameLength);
+
+  return Napi::String::From(env, StringAcpToUtf8(sAttribute));
+}
+
+Napi::Value Certificate::GetIssuerAttribute(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+
+  if (info.Length() < 1 || !info[0].IsString()) {
+    HandleArgumentError(env, "Type (string) excepted");
+    return env.Undefined();
+  }
+  Napi::String nsType = info[0].ToString();
+
+  DWORD dwNameLength = CertGetNameString(pContext_, CERT_NAME_ATTR_TYPE, CERT_NAME_ISSUER_FLAG, &nsType.Utf8Value()[0], NULL, 0);
+
+  std::string sAttribute(dwNameLength, 0);
+  CertGetNameString(pContext_, CERT_NAME_ATTR_TYPE, CERT_NAME_ISSUER_FLAG, &nsType.Utf8Value()[0], &sAttribute[0], dwNameLength);
+
+  return Napi::String::From(env, StringAcpToUtf8(sAttribute));
+}
+
 Napi::Value Certificate::GetSerialNumber(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
   return Napi::Buffer<uint8_t>::Copy(env, pContext_->pCertInfo->SerialNumber.pbData, pContext_->pCertInfo->SerialNumber.cbData);
+}
+
+Napi::Value Certificate::GetSignatureAlgorithm(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+
+  return Napi::String::From(env, pContext_->pCertInfo->SignatureAlgorithm.pszObjId);
+}
+
+Napi::Value Certificate::GetPublicKeyAlgorithm(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+
+  return Napi::String::From(env, pContext_->pCertInfo->SubjectPublicKeyInfo.Algorithm.pszObjId);
 }
 
 Napi::Value Certificate::GetValidPeriod(const Napi::CallbackInfo &info) {
