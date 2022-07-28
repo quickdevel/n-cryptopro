@@ -16,6 +16,9 @@
 - [XADES\_T](XAdES.md#xades_t)
 - [XADES\_XMLDSIG](XAdES.md#xades_xmldsig)
 - [XADES\_X\_LONG\_TYPE\_1](XAdES.md#xades_x_long_type_1)
+- [XML\_XADES\_SIGNATURE\_TYPE\_ENVELOPED](XAdES.md#xml_xades_signature_type_enveloped)
+- [XML\_XADES\_SIGNATURE\_TYPE\_ENVELOPING](XAdES.md#xml_xades_signature_type_enveloping)
+- [XML\_XADES\_SIGNATURE\_TYPE\_TEMPLATE](XAdES.md#xml_xades_signature_type_template)
 
 ### Functions
 
@@ -53,6 +56,30 @@ ___
 • `Const` **XADES\_X\_LONG\_TYPE\_1**: `number`
 
 Тип сообщения XAdES-X Long Type 1
+
+___
+
+### XML\_XADES\_SIGNATURE\_TYPE\_ENVELOPED
+
+• `Const` **XML\_XADES\_SIGNATURE\_TYPE\_ENVELOPED**: `number`
+
+XML_XADES_SIGNATURE_TYPE_ENVELOPED
+
+___
+
+### XML\_XADES\_SIGNATURE\_TYPE\_ENVELOPING
+
+• `Const` **XML\_XADES\_SIGNATURE\_TYPE\_ENVELOPING**: `number`
+
+XML_XADES_SIGNATURE_TYPE_ENVELOPING
+
+___
+
+### XML\_XADES\_SIGNATURE\_TYPE\_TEMPLATE
+
+• `Const` **XML\_XADES\_SIGNATURE\_TYPE\_TEMPLATE**: `number`
+
+XML_XADES_SIGNATURE_TYPE_TEMPLATE
 
 ## Functions
 

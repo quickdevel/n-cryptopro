@@ -7,6 +7,10 @@ void XAdES::Init(Napi::Env env, Napi::Object exports) {
   object.Set(Napi::String::New(env, "signMessage"), Napi::Function::New(env, XAdES::SignMessage));
   object.Set(Napi::String::New(env, "verifyMessageSignature"), Napi::Function::New(env, XAdES::VerifyMessageSignature));
 
+  object.Set(Napi::String::New(env, "XML_XADES_SIGNATURE_TYPE_ENVELOPED"), Napi::Number::New(env, XML_XADES_SIGNATURE_TYPE_ENVELOPED));
+  object.Set(Napi::String::New(env, "XML_XADES_SIGNATURE_TYPE_ENVELOPING"), Napi::Number::New(env, XML_XADES_SIGNATURE_TYPE_ENVELOPING));
+  object.Set(Napi::String::New(env, "XML_XADES_SIGNATURE_TYPE_TEMPLATE"), Napi::Number::New(env, XML_XADES_SIGNATURE_TYPE_TEMPLATE));
+
   object.Set(Napi::String::New(env, "XADES_BES"), Napi::Number::New(env, XADES_BES));
   object.Set(Napi::String::New(env, "XADES_T"), Napi::Number::New(env, XADES_T));
   object.Set(Napi::String::New(env, "XADES_X_LONG_TYPE_1"), Napi::Number::New(env, XADES_X_LONG_TYPE_1));

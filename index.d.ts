@@ -350,6 +350,18 @@ export namespace XAdES {
     export function verifyMessageSignature(message: Buffer, options?: XAdESVerifySignatureOptions): XAdESVerifySignatureResult[];
 
     /**
+     * XML_XADES_SIGNATURE_TYPE_ENVELOPED
+     */
+    export const XML_XADES_SIGNATURE_TYPE_ENVELOPED: number;
+    /**
+     * XML_XADES_SIGNATURE_TYPE_ENVELOPING
+     */
+     export const XML_XADES_SIGNATURE_TYPE_ENVELOPING: number;
+    /**
+     * XML_XADES_SIGNATURE_TYPE_TEMPLATE
+     */
+     export const XML_XADES_SIGNATURE_TYPE_TEMPLATE: number;
+    /**
      * Тип сообщения XAdES BES
      */
     export const XADES_BES: number;
