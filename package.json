@@ -1,6 +1,6 @@
 {
   "name": "n-cryptopro",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Модуль для работы c КриптоПРО CSP в Node.js",
   "main": "index.js",
   "scripts": {
