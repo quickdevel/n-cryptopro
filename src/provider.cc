@@ -66,11 +66,11 @@ Napi::Value Provider::GetName(const Napi::CallbackInfo& info) {
 
   std::string name(dwNameLength, 0);
   if (!CryptGetProvParam(hCryptProv_, PP_NAME, (BYTE *)name.c_str(), &dwNameLength, 0)) {
-    HandleError(env, "Error on CryptGetProvParam:1");
+    HandleError(env, "Error on CryptGetProvParam:2");
     return env.Undefined();
   }
 
-  return Napi::String::New(env, name);
+  return Napi::String::New(env, StringAcpToUtf8(name));
 }
 
 Napi::Value Provider::GetContainerName(const Napi::CallbackInfo& info) {
@@ -84,9 +84,9 @@ Napi::Value Provider::GetContainerName(const Napi::CallbackInfo& info) {
 
   std::string name(dwNameLength, 0);
   if (!CryptGetProvParam(hCryptProv_, PP_CONTAINER, (BYTE *)name.c_str(), &dwNameLength, 0)) {
-    HandleError(env, "Error on CryptGetProvParam:1");
+    HandleError(env, "Error on CryptGetProvParam:2");
     return env.Undefined();
   }
 
-  return Napi::String::New(env, name);
+  return Napi::String::New(env, StringAcpToUtf8(name));
 }
