@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/quickdevel/n-cryptopro/compare/v1.0.0...v1.0.1) (2025-10-23)
+
+
+### Bug Fixes
+
+* Мелкие правки ([83059e6](https://github.com/quickdevel/n-cryptopro/commit/83059e619802e3d45d38f86a828644181001bc18))
+
 ## 1.0.0 (2023-03-29)
 
 
