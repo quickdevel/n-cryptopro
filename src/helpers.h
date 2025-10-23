@@ -3,8 +3,8 @@
 
 #include "stdafx.h"
 
-void HandleError (Napi::Env env, char *message);
-void HandleArgumentError (Napi::Env env, char *message);
+void HandleError (Napi::Env env, const char *message);
+void HandleArgumentError (Napi::Env env, const char *message);
 
 std::string StringAcpToUtf8(std::string inString);
 std::string StringUtf8ToAcp(std::string inString);

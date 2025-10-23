@@ -279,7 +279,7 @@ Napi::Value EncryptMessage(const Napi::CallbackInfo& info) {
   memset(&cryptEncryptMessagePara, 0, sizeof(CRYPT_ENCRYPT_MESSAGE_PARA));
   cryptEncryptMessagePara.cbSize =  sizeof(cryptEncryptMessagePara);
   cryptEncryptMessagePara.dwMsgEncodingType = X509_ASN_ENCODING | PKCS_7_ASN_ENCODING;
-  cryptEncryptMessagePara.ContentEncryptionAlgorithm.pszObjId = szOID_CP_GOST_28147;
+  cryptEncryptMessagePara.ContentEncryptionAlgorithm.pszObjId = const_cast<LPSTR>(szOID_CP_GOST_28147);
 
   DWORD dwEncryptedMessageLength = 0;
   if (!CryptEncryptMessage(&cryptEncryptMessagePara, 1, &pCertContext, nbMessage.Data(), nbMessage.Length(), NULL, &dwEncryptedMessageLength)) {
@@ -352,21 +352,21 @@ Napi::Value SignMessage(const Napi::CallbackInfo& info) {
   Napi::Buffer<uint8_t> nbMessage = info[1].As<Napi::Buffer<uint8_t>>();
 
   bool bIsDetached = false;
-  char *pHashAlgorithmOid = szOID_CP_GOST_R3411_12_256;
+  std::string sHashAlgorithm = szOID_CP_GOST_R3411_12_256;
   if (info.Length() >= 3 && info[2].IsObject()) {
     Napi::Object nOptions = info[2].ToObject();
     if (nOptions.Get("isDetached").IsBoolean()) {
       bIsDetached = nOptions.Get("isDetached").ToBoolean();
     }
     if (nOptions.Get("hashAlgorithm").IsString()) {
-      pHashAlgorithmOid = (char *)nOptions.Get("hashAlgorithm").ToString().Utf8Value().c_str();
+      sHashAlgorithm = nOptions.Get("hashAlgorithm").ToString().Utf8Value();
     }
   }
 
   CRYPT_SIGN_MESSAGE_PARA cryptSignMessagePara = { sizeof(cryptSignMessagePara) };
   cryptSignMessagePara.dwMsgEncodingType = X509_ASN_ENCODING | PKCS_7_ASN_ENCODING;
   cryptSignMessagePara.pSigningCert = pCertContext;
-  cryptSignMessagePara.HashAlgorithm.pszObjId = pHashAlgorithmOid;
+  cryptSignMessagePara.HashAlgorithm.pszObjId = const_cast<char*>(sHashAlgorithm.c_str());
 
   cryptSignMessagePara.rgpMsgCert = &pCertContext;
   cryptSignMessagePara.cMsgCert = 1;

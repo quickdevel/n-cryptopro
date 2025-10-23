@@ -35,13 +35,15 @@ Napi::Value XAdES::SignMessage(const Napi::CallbackInfo& info) {
   }
   Napi::Buffer<uint8_t> nbMessage = info[1].As<Napi::Buffer<uint8_t>>();
 
+  std::string sXPath;
   char *pcXPath = NULL;
   bool bIsDetached = false;
   DWORD dwSignatureType = 0;
   if (info.Length() >= 3 && info[2].IsObject()) {
     Napi::Object nOptions = info[2].ToObject();
     if (nOptions.Get("xpath").IsString()) {
-      pcXPath = (char *)nOptions.Get("xpath").ToString().Utf8Value().c_str();
+      sXPath = nOptions.Get("xpath").ToString().Utf8Value();
+      pcXPath = const_cast<char*>(sXPath.c_str());
     }
     if (nOptions.Get("isDetached").IsBoolean()) {
       bIsDetached = nOptions.Get("isDetached").ToBoolean();

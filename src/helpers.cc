@@ -1,6 +1,6 @@
 #include "helpers.h"
 
-void HandleError (Napi::Env env, char *message) {
+void HandleError (Napi::Env env, const char *message) {
   char szMessage[256];
   DWORD dwLastError = GetLastError();
   if (dwLastError) {
@@ -15,7 +15,7 @@ void HandleError (Napi::Env env, char *message) {
   Napi::Error::New(env, szMessage).ThrowAsJavaScriptException();
 }
 
-void HandleArgumentError (Napi::Env env, char *message) {
+void HandleArgumentError (Napi::Env env, const char *message) {
   Napi::TypeError::New(env, message).ThrowAsJavaScriptException();
 }
 
